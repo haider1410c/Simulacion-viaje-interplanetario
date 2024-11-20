@@ -5,7 +5,7 @@ public class App {
     //Elementos necesarios para todas las acciones.
     static Scanner scanner = new Scanner(System.in);
     static String[] planetas = {"Marte", "Júpiter", "Saturno", "Urano", "Neptuno", "Venus", "Mercurio"};
-    static double[] distancias = {78.0, 628.0, 1256.0};
+    static double[] distancias = {132.83, 617.54, 1.3676, 2.7774, 4.3982, 156.94, 140.17};
     static String[] naves = {"Exploradora", "carga pesada", "Velocidad máxima"};
     static double[] velocidades = {20000.0, 15000.0, 30000};
     
@@ -43,7 +43,7 @@ public class App {
     }
 
     public static void seleccionarNave(){
-    
+        
     }
 
     public static void seleccionarPlaneta(){
@@ -59,7 +59,6 @@ public class App {
     //Métodos auxiliares.
     public static void imprimirPlanetas(){
         
-
     }
 
     public static void lanzarEvento(){
