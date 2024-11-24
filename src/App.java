@@ -101,50 +101,56 @@ public class App {
         System.out.println("Elige un planeta de destino");
         imprimirPlanetas();
         planeta = scanner.nextInt();
-        switch (planeta) {
-            case 1:
-                System.out.println(planetas[0]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[0]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[0]);
-                break;
-            case 2:
-                System.out.println(planetas[1]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[1]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[1]);
-                break;
-            case 3:
-                System.out.println(planetas[2]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[2]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[2]);
-                break;
-            case 4:
-                System.out.println(planetas[3]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[3]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[3]);
-                break;   
-            case 5:
-                System.out.println(planetas[4]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[4]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[4]);
-                break; 
-            case 6:
-                System.out.println(planetas[5]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[5]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[5]);
-                break;
-            case 7:
-                System.out.println(planetas[6]);
-                System.out.println("La distancia de la tierra a este planeta es de: " +distancias[6]+" millones de kilometros");
-                System.out.println("Descripcion: "+ descripcionPlaneta[6]);
-                break;
-            default:
-                break;
-        }
+
+        do {
+            switch (planeta) {
+                case 1:
+                    System.out.println(planetas[0]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[0]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[0]);
+                    break;
+                case 2:
+                    System.out.println(planetas[1]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[1]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[1]);
+                    break;
+                case 3:
+                    System.out.println(planetas[2]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[2]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[2]);
+                    break;
+                case 4:
+                    System.out.println(planetas[3]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[3]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[3]);
+                    break;   
+                case 5:
+                    System.out.println(planetas[4]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[4]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[4]);
+                    break; 
+                case 6:
+                    System.out.println(planetas[5]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[5]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[5]);
+                    break;
+                case 7:
+                    System.out.println(planetas[6]);
+                    System.out.println("La distancia de la tierra a este planeta es de: " +distancias[6]+" millones de kilometros");
+                    System.out.println("Descripcion: "+ descripcionPlaneta[6]);
+                    break;
+                default:
+                    break;
+            }
+        } while (planeta != 7);
+       
     }
 
     public static void calcularRecursos() {
+        
         // Disntancia del viaje
-        seleccionarNave();
+        
+        double distanciaHoras = (double) distancias[1] / ;
         
     }
 
