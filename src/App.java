@@ -78,8 +78,8 @@ public class App {
         int pasajeros = scanner.nextInt();
         double velocidadDefecto = velocidades[opcionNave - 1];
 
-        // Verifica que la cantidad de pasajeros no exceda la capacidad maxima de las
-        // naves
+        // Verifica que la cantidad de pasajeros no exceda la capacidad maxima de las naves
+
         while (pasajeros <= 0) {
             if (pasajeros <= limitePasajeros[0] || pasajeros >= limitePasajeros[1] || pasajeros <= limitePasajeros[2]) {
                 System.out.println("Pasajeros ingresados correctamente");
@@ -98,6 +98,9 @@ public class App {
     }
 
     public static void calcularRecursos() {
+        // Disntancia del viaje
+        seleccionarNave();
+        
 
     }
 
