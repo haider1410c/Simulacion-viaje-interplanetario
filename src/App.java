@@ -22,6 +22,8 @@ public class App {
                 case 2:
                     seleccionarNave();
                     break;
+                case 3:
+                    calcularRecursos();
                 default:
                     break;
             }
@@ -101,7 +103,6 @@ public class App {
         // Disntancia del viaje
         seleccionarNave();
         
-
     }
 
     // Métodos auxiliares.
