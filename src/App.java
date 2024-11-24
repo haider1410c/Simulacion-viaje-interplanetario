@@ -97,12 +97,9 @@ public class App {
 
     public static void seleccionarPlaneta() {
         int planeta;
-        int indice = 1;
+        
         System.out.println("Elige un planeta de destino");
-        for (int index = 0; index < planetas.length; index++) {
-           System.out.println(indice+ "." + planetas[index] );
-           indice= indice+1;
-        }
+        imprimirPlanetas();
         planeta = scanner.nextInt();
         switch (planeta) {
             case 1:
@@ -153,7 +150,11 @@ public class App {
 
     // Métodos auxiliares.
     public static void imprimirPlanetas() {
-
+        int indice = 1;
+        for (int index = 0; index < planetas.length; index++) {
+            System.out.println(indice+ "." + planetas[index] );
+            indice= indice+1;
+         }
     }
 
     public static void lanzarEvento() {
