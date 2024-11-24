@@ -98,6 +98,7 @@ public class App {
 
     public static void seleccionarNave(){
 
+        
     }
 
 
@@ -111,7 +112,6 @@ public class App {
     //Métodos auxiliares.
     public static void imprimirPlanetas(){
         
-
     }
 
     public static void lanzarEvento(){
