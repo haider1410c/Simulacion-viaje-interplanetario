@@ -15,6 +15,7 @@ public class App {
     static String naveElegida = null;
     static double velocidadDefecto = 100;
     static int planeta = -1;
+    static double tiempo;
     static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
     static double consumoPorHora = 50.0; // Consumo de recursos por hora
 
@@ -82,34 +83,26 @@ public class App {
         
        
         // Seleccion de pasajeros Pasajeros.
-        System.out.println("Ingrese la cantidad de pasajeros");
-
         int limitePasajeros[] = { 7, 15, 5 };
-        int pasajeros= scanner.nextInt(); 
+        int pasajeros;
         double velocidadDefecto = velocidades[opcionNave - 1];
         while (true) {
             System.out.println("Ingrese la cantidad de pasajeros");
             if (scanner.hasNextInt()) { //se verifica que el dato ingresado sea un número
                 pasajeros = scanner.nextInt();
-                if (pasajeros >=1) {
-                    if (opcionNave == 1 && pasajeros >7 ) {
-                    System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(7 pasajeros)");
-
+                if (pasajeros >= 0) {  // Verifica que el número de pasajeros sea positivo
+                    if (opcionNave == 1 && pasajeros > 7) {
+                        System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima (7 pasajeros)");
+                    } else if (opcionNave == 2 && pasajeros > 15) {
+                        System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima (15 pasajeros)");
+                    } else if (opcionNave == 3 && pasajeros > 5) {
+                        System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima (5 pasajeros)");
                     } else {
-                        if (opcionNave == 2 && pasajeros >15 ) {
-                            System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(15 pasajeros) ");
-                        } else {
-                            if (opcionNave == 3 && pasajeros >5) {
-                                System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(5 pasajeros) ");
-                            } else {
-                                System.out.println("Pasajeros registrados exitosamente");
-                                break;
-                            } 
-                        }
+                        System.out.println("Pasajeros registrados exitosamente");
+                        break;  // Sale del ciclo cuando el número de pasajeros es válido
                     }
                 } else {
                     System.out.println("El número de pasajeros debe ser mayor a 0");
-                    
                 }
             } else {
                 System.out.println("Por favor, introduce un número válido.");
@@ -136,9 +129,9 @@ public class App {
     }
 
     public static void seleccionarPlaneta() {
-        int planeta;      
+           
         int velocidadFija= 1;
-        double tiempo;
+        
         System.out.println("Elige un planeta de destino");
         imprimirPlanetas();
         planeta = scanner.nextInt();
@@ -196,7 +189,7 @@ public class App {
        
    }
 
-    public static void calcularRecursos() {
+    public static void iniciarSimulación() {
         // Disntancia del viaje
         
         if (naveElegida == null || planeta == -1) {
@@ -205,46 +198,51 @@ public class App {
         }
 
         // Cálculo de la duración del viaje
-        double distanciaKm = distancias[planeta] / 1000000; // Convertir millones de km a km
+        double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
         double duracionHoras = distanciaKm / velocidadDefecto;
         double duracionDias = duracionHoras / 24;
 
         //  recursos necesarios para la nave
-        double distanciaRecorrida = 20;
+        double distanciaRecorrida = 100;
         double recursosDisponibles = recursosIniciales;
-        double tiempoTranscurrido = 40;
+        double tiempoTranscurrido = 0;
 
         System.out.println("\n---Resultados de la simulación ---");
         System.out.println("Nave: " + naveElegida);
         System.out.println("Planeta: " + planetas[planeta -1]);
         System.out.printf("Duración estimada del viaje: %.2f días\n", duracionDias);
+        scanner.nextLine();
 
         System.out.println("---- Inicio de simulación del viaje ----");
 
-        while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
+        while (distanciaRecorrida < distanciaKm && recursosDisponibles > 0) {
 
-            tiempoTranscurrido++;
+            tiempoTranscurrido ++;
             distanciaRecorrida += velocidadDefecto;
             recursosDisponibles -= consumoPorHora;
 
-            double porcentajeProgreso = (distanciaRecorrida * distanciaKm) * 100;
+            double porcentajeProgreso = (distanciaRecorrida / distanciaKm) * 100;
 
-            double tiempoRestante = (tiempoTranscurrido - duracionHoras);
+            double tiempoRestante = (distanciaKm - distanciaRecorrida) / velocidadDefecto;
 
-            System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
-            System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
-            System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
-            System.out.println("");
+            if (tiempoTranscurrido < 100) {
+            
+                System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
+                System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
+                System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
+                System.out.println("");
 
             try {
-                Thread.sleep(500); // Pausa para simular tiempo real
+                Thread.sleep(1000); // Pausa para simular tiempo real
             } catch (InterruptedException e) {
                 System.err.println("Error en la simulación de tiempo.");
             }
+            }
 
+            
         }
 
-        if ((distanciaRecorrida > distanciaKm)) {
+        if (distanciaRecorrida >= distanciaKm) {
              
             System.out.println(" Viaje realizado con esto, bienvenido a su destino");
              
