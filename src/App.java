@@ -11,8 +11,10 @@ public class App {
     static double[] velocidades = { 20000.0, 15000.0, 30000 };
 
     static String naveElegida = null;
-    static double velocidadDefecto = 0.1;
+    static double velocidadDefecto = 100;
     static int planeta = -1;
+    static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
+    static double consumoPorHora = 50.0; // Consumo de recursos por hora
 
     public static void main(String[] args) throws Exception {
 
@@ -28,7 +30,7 @@ public class App {
                     seleccionarNave();
                     break;
                 case 3:
-                    calcularRecursos();
+                    iniciarSimulación();
                 default:
                     break;
             }
@@ -143,7 +145,7 @@ public class App {
         }
     }
 
-    public static void calcularRecursos() {
+    public static void iniciarSimulación() {
         // Disntancia del viaje
         
         if (naveElegida == null || planeta == -1) {
@@ -152,14 +154,53 @@ public class App {
         }
 
         // Cálculo de la duración del viaje
-        double distanciaKm = distancias[planeta] * 1000000; // Convertir millones de km a km
+        double distanciaKm = distancias[planeta] / 1000000; // Convertir millones de km a km
         double duracionHoras = distanciaKm / velocidadDefecto;
         double duracionDias = duracionHoras / 24;
 
+        //  recursos necesarios para la nave
+        double distanciaRecorrida = 20;
+        double recursosDisponibles = recursosIniciales;
+        double tiempoTranscurrido = 40;
+
         System.out.println("\n---Resultados de la simulación ---");
         System.out.println("Nave: " + naveElegida);
-        System.out.println("Planeta: " + planetas[planeta]);
+        System.out.println("Planeta: " + planetas[planeta -1]);
         System.out.printf("Duración estimada del viaje: %.2f días\n", duracionDias);
+
+        System.out.println("---- Inicio de simulación del viaje ----");
+
+        while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
+
+            tiempoTranscurrido++;
+            distanciaRecorrida += velocidadDefecto;
+            recursosDisponibles -= consumoPorHora;
+
+            double porcentajeProgreso = (distanciaRecorrida * distanciaKm) * 100;
+
+            double tiempoRestante = (tiempoTranscurrido - duracionHoras);
+
+            System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
+            System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
+            System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
+            System.out.println("");
+
+            try {
+                Thread.sleep(500); // Pausa para simular tiempo real
+            } catch (InterruptedException e) {
+                System.err.println("Error en la simulación de tiempo.");
+            }
+
+        }
+
+        if ((distanciaRecorrida > distanciaKm)) {
+             
+            System.out.println(" Viaje realizado con esto, bienvenido a su destino");
+             
+        }else{
+            System.err.println("¡ La nave se a quedado sin recursos!, el viaje ha fallado");
+        }
+        
     }
 
     // Métodos auxiliares.
