@@ -12,6 +12,10 @@ public class App {
     //static double[] combustible={}
     static double[] velocidades = { 20000.0, 15000.0, 30000 };
 
+    static String naveElegida = null;
+    static double velocidadDefecto = 0.1;
+    static int planeta = -1;
+
     public static void main(String[] args) throws Exception {
 
         int opcion;
@@ -55,8 +59,6 @@ public class App {
 
         int opcionNave;
 
-        String naveElegida = "";
-
         while (true) {
             System.out.println("Introduce el número de la nave que deseas elegir: ");
 
@@ -78,8 +80,10 @@ public class App {
         
        
         // Seleccion de pasajeros Pasajeros.
+        System.out.println("Ingrese la cantidad de pasajeros");
+
         int limitePasajeros[] = { 7, 15, 5 };
-        int pasajeros; 
+        int pasajeros= scanner.nextInt(); 
         double velocidadDefecto = velocidades[opcionNave - 1];
         while (true) {
             System.out.println("Ingrese la cantidad de pasajeros");
@@ -130,7 +134,7 @@ public class App {
     }
 
     public static void seleccionarPlaneta() {
-        int planeta;
+        int planeta;      
         int velocidadFija= 1;
         double tiempo;
         System.out.println("Elige un planeta de destino");
@@ -192,9 +196,21 @@ public class App {
 
     public static void calcularRecursos() {
         // Disntancia del viaje
-      
-        seleccionarNave();
-       
+        
+        if (naveElegida == null || planeta == -1) {
+            System.out.println("Por favor, selecciona una nave y un planeta antes de iniciar la simulación.");
+            return;
+        }
+
+        // Cálculo de la duración del viaje
+        double distanciaKm = distancias[planeta] * 1000000; // Convertir millones de km a km
+        double duracionHoras = distanciaKm / velocidadDefecto;
+        double duracionDias = duracionHoras / 24;
+
+        System.out.println("\n---Resultados de la simulación ---");
+        System.out.println("Nave: " + naveElegida);
+        System.out.println("Planeta: " + planetas[planeta]);
+        System.out.printf("Duración estimada del viaje: %.2f días\n", duracionDias);
     }
 
     // Métodos auxiliares.
@@ -207,11 +223,11 @@ public class App {
     }
 
     public static void lanzarEvento() {
-
+        
     }
 
     public static void detenerNave() {
-
+        
     }
 
 }
