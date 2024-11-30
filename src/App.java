@@ -158,13 +158,13 @@ public class App {
                 System.out.println("Descripcion: "+ descripcionPlaneta[2]);
                 break;
             case 4:
-                tiempo= distancias[4]/velocidadFija;
+                tiempo= distancias[3]/velocidadFija;
                 System.out.println(planetas[3]);
                 System.out.println("La distancia de la tierra a "+ planetas[3] +" es de: " +distancias[3]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
                 System.out.println("Descripcion: "+ descripcionPlaneta[3]);
                 break;   
             case 5:
-                tiempo= distancias[5]/velocidadFija;
+                tiempo= distancias[4]/velocidadFija;
                 System.out.println(planetas[4]);
                 System.out.println("La distancia de la tierra a "+ planetas[4] +" es de: " +distancias[4]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
                 System.out.println("Descripcion: "+ descripcionPlaneta[4]);
