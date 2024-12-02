@@ -15,7 +15,7 @@ public class App {
     static String naveElegida = null;
     static double velocidadDefecto = 100;
     static int planeta = -1;
-    static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
+    //static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
     static double consumoPorHora = 50.0; // Consumo de recursos por hora
 
     public static void main(String[] args) throws Exception {
@@ -31,8 +31,10 @@ public class App {
                 case 2:
                     seleccionarNave();
                     break;
-                case 3:
-                    iniciarSimulación();
+                case 3:                    
+                    iniciarSimulacionVuelo();
+                    break;
+
                 default:
                     break;
             }
@@ -91,26 +93,8 @@ public class App {
             System.out.println("Ingrese la cantidad de pasajeros");
             if (scanner.hasNextInt()) { //se verifica que el dato ingresado sea un número
                 pasajeros = scanner.nextInt();
-                if (pasajeros >=1) {
-                    if (opcionNave == 1 && pasajeros >7 ) {
-                    System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(7 pasajeros)");
-
-                    } else {
-                        if (opcionNave == 2 && pasajeros >15 ) {
-                            System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(15 pasajeros) ");
-                        } else {
-                            if (opcionNave == 3 && pasajeros >5) {
-                                System.out.println("El número de pasajeros supera la capacidad máxima de la nave. Capacidad máxima(5 pasajeros) ");
-                            } else {
-                                System.out.println("Pasajeros registrados exitosamente");
-                                break;
-                            } 
-                        }
-                    }
-                } else {
-                    System.out.println("El número de pasajeros debe ser mayor a 0");
-                    
-                }
+                System.out.println("Pasajeros registrados exitosamente");
+                break;
             } else {
                 System.out.println("Por favor, introduce un número válido.");
                 scanner.nextInt();
@@ -138,57 +122,68 @@ public class App {
     public static void seleccionarPlaneta() {
         int planeta;      
         int velocidadFija= 1;
+        int confirmacion;
         double tiempo;
         System.out.println("Elige un planeta de destino");
         imprimirPlanetas();
         planeta = scanner.nextInt();
-        switch (planeta) {
-            case 1:
-                tiempo= distancias[0]/velocidadFija;
-                System.out.println(planetas[0]);
-                System.out.println("La distancia de la tierra a "+ planetas[0] +" es de: " +distancias[0]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[0]);
-
-                break;
-            case 2:
-                tiempo= distancias[1]/velocidadFija;
-                System.out.println(planetas[1]);
-                System.out.println("La distancia de la tierra a "+ planetas[1] +" es de: " +distancias[1]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[1]);
-
-                break;
-            case 3:
-                tiempo= distancias[2]/velocidadFija;
-                System.out.println(planetas[2]);
-                System.out.println("La distancia de la tierra a "+ planetas[2] +" es de: " +distancias[2]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[2]);
-                break;
-            case 4:
-                tiempo= distancias[3]/velocidadFija;
-                System.out.println(planetas[3]);
-                System.out.println("La distancia de la tierra a "+ planetas[3] +" es de: " +distancias[3]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[3]);
-                break;   
-            case 5:
-                tiempo= distancias[4]/velocidadFija;
-                System.out.println(planetas[4]);
-                System.out.println("La distancia de la tierra a "+ planetas[4] +" es de: " +distancias[4]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[4]);
-                break; 
-            case 6:
-                tiempo= distancias[5]/velocidadFija;
-                System.out.println(planetas[5]);
-                System.out.println("La distancia de la tierra a "+ planetas[5] +" es de: " +distancias[5]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[5]);
-                break;
-            case 7:
-                tiempo= distancias[6]/velocidadFija;
-                System.out.println(planetas[6]);
-                System.out.println("La distancia de la tierra a "+ planetas[6] +" es de: " +distancias[6]+" millones de kilometros."+ "El tiempo aproximado para llegar es de: "+ tiempo +" horas, viajando a una velocidad fija de: "+ velocidadFija + " millón de kilometros por hora");
-                System.out.println("Descripcion: "+ descripcionPlaneta[6]);
-                break;
-            default:
-                break;
+        System.out.println("Esta seguro de querer elegir el planeta "+ planeta);
+        System.out.println("Digite 1 para confirmar");
+        System.out.println("Digite 2 para elegir otro planeta");
+        confirmacion= scanner.nextInt();
+        
+        if (confirmacion != 1 || confirmacion != 2) {
+            System.out.println("Opción invalida, intente nuevamente.");
+        } else {
+            if (confirmacion ==1) {
+                switch (planeta) {
+                    case 1:
+                        System.out.println(planetas[0]);
+                        System.out.println("La distancia de la tierra a "+ planetas[0] +" es de: " +distancias[0]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[0]);
+    
+                        break;
+                    case 2:
+                        System.out.println(planetas[1]);
+                        System.out.println("La distancia de la tierra a "+ planetas[1] +" es de: " +distancias[1]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[1]);
+    
+                        break;
+                    case 3:
+                        System.out.println(planetas[2]);
+                        System.out.println("La distancia de la tierra a "+ planetas[2] +" es de: " +distancias[2]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[2]);
+                        break;
+                    case 4:
+                        System.out.println(planetas[3]);
+                        System.out.println("La distancia de la tierra a "+ planetas[3] +" es de: " +distancias[3]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[3]);
+                        break;   
+                    case 5:
+                        System.out.println(planetas[4]);
+                        System.out.println("La distancia de la tierra a "+ planetas[4] +" es de: " +distancias[4]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[4]);
+                        break; 
+                    case 6:
+                        System.out.println(planetas[5]);
+                        System.out.println("La distancia de la tierra a "+ planetas[5] +" es de: " +distancias[5]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[5]);
+                        break;
+                    case 7:
+                        System.out.println(planetas[6]);
+                        System.out.println("La distancia de la tierra a "+ planetas[6] +" es de: " +distancias[6]+" millones de kilometros.");
+                        System.out.println("Descripcion: "+ descripcionPlaneta[6]);
+                        break;
+                    default:
+                        break;
+                }
+        
+            } else {
+                System.out.println("Elige un planeta de destino");
+                imprimirPlanetas();
+                scanner.nextInt();
+            
+            }
         }
     }
 
@@ -210,9 +205,12 @@ public class App {
         double duracionDias = duracionHoras / 24;
 
         //  recursos necesarios para la nave
-        double distanciaRecorrida = 20;
-        double recursosDisponibles = recursosIniciales;
-        double tiempoTranscurrido = 40;
+        iniciarSimulacionVuelo(duracionDias,duracionHoras,distanciaKm);
+    }
+    public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras,double
+    distanciaKm){
+
+        
 
         System.out.println("\n---Resultados de la simulación ---");
         System.out.println("Nave: " + naveElegida);
@@ -221,6 +219,9 @@ public class App {
 
         System.out.println("---- Inicio de simulación del viaje ----");
 
+        double distanciaRecorrida = 20;
+        double recursosDisponibles = recursosIniciales;
+        double tiempoTranscurrido = 40;
         while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
 
             tiempoTranscurrido++;
@@ -246,7 +247,7 @@ public class App {
 
         if ((distanciaRecorrida > distanciaKm)) {
              
-            System.out.println(" Viaje realizado con esto, bienvenido a su destino");
+            System.out.println(" Viaje realizado con exito, bienvenido a su destino");
              
         }else{
             System.err.println("¡ La nave se a quedado sin recursos!, el viaje ha fallado");
