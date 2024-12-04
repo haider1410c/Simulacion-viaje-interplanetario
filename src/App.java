@@ -33,7 +33,7 @@ public class App {
                     seleccionarNave();
                     break;
                 case 3:                    
-                    iniciarSimulacionVuelo(double,double,distanciaKm:double);
+                    iniciarSimulacionVuelo();
                     break;
 
                 default:
@@ -101,17 +101,6 @@ public class App {
 
         }
         
-        // Verifica que la cantidad de pasajeros no exceda la capacidad maxima de las naves
-
-        // while (pasajeros <= 0) {
-        //     if (pasajeros <= limitePasajeros[0] || pasajeros >= limitePasajeros[1] || pasajeros <= limitePasajeros[2]) {
-        //         System.out.println("Pasajeros ingresados correctamente");
-
-        //     } else {
-        //         System.err.println("Excediste la cantidad maxima");
-        //     }
-        // }
-
         gestionarRecursos(naveElegida,pasajeros);
 
         System.out.println("Nave: " + naveElegida + " velocidad maxima " + velocidadDefecto + " Cantidad de pasajeros : " + pasajeros);
@@ -183,25 +172,21 @@ public class App {
     }
 
    public static void gestionarRecursos(String naveElegida, int pasajeros){
-       
+    if (naveElegida == null || planeta == -1) {
+        System.out.println("Por favor, selecciona una nave y un planeta antes de iniciar la simulación.");
+        return;
+    }
+
+    // Cálculo de la duración del viaje
+    double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
+    double duracionHoras = distanciaKm / velocidadDefecto;
+    double duracionDias = duracionHoras / 24;
+
+    //  recursos necesarios para la nave
+    iniciarSimulacionVuelo(duracionDias,duracionHoras,distanciaKm);
    }
 
-    public static void iniciarSimulación() {
-        // Disntancia del viaje
-        
-        if (naveElegida == null || planeta == -1) {
-            System.out.println("Por favor, selecciona una nave y un planeta antes de iniciar la simulación.");
-            return;
-        }
-
-        // Cálculo de la duración del viaje
-        double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
-        double duracionHoras = distanciaKm / velocidadDefecto;
-        double duracionDias = duracionHoras / 24;
-
-        //  recursos necesarios para la nave
-        iniciarSimulacionVuelo(duracionDias,duracionHoras,distanciaKm);
-    }
+    
     public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras,double
     distanciaKm){
 
@@ -218,9 +203,7 @@ public class App {
 
         System.out.println("---- Inicio de simulación del viaje ----");
 
-        double distanciaRecorrida = 20;
-        double recursosDisponibles = recursosIniciales;
-        double tiempoTranscurrido = 40;
+     
         while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
 
             tiempoTranscurrido ++;
