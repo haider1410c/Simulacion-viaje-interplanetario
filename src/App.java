@@ -33,7 +33,7 @@ public class App {
                     seleccionarNave();
                     break;
                 case 3:                    
-                    iniciarSimulacionVuelo();
+                    iniciarSimulacionVuelo(double,double,distanciaKm:double);
                     break;
 
                 default:
@@ -120,9 +120,7 @@ public class App {
 
     public static void seleccionarPlaneta() {
            
-        int velocidadFija= 1;
         int confirmacion;
-        double tiempo;
         System.out.println("Elige un planeta de destino");
         imprimirPlanetas();
         planeta = scanner.nextInt();
@@ -140,13 +138,11 @@ public class App {
                         System.out.println(planetas[0]);
                         System.out.println("La distancia de la tierra a "+ planetas[0] +" es de: " +distancias[0]+" millones de kilometros.");
                         System.out.println("Descripcion: "+ descripcionPlaneta[0]);
-    
                         break;
                     case 2:
                         System.out.println(planetas[1]);
                         System.out.println("La distancia de la tierra a "+ planetas[1] +" es de: " +distancias[1]+" millones de kilometros.");
                         System.out.println("Descripcion: "+ descripcionPlaneta[1]);
-    
                         break;
                     case 3:
                         System.out.println(planetas[2]);
