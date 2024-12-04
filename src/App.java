@@ -261,7 +261,7 @@ public class App {
             System.out.println("¿Deseas modificar estos parametros?");
             System.out.println("1. Modificar combustible");
             System.out.println("2. Modificar oxigeno");
-            System.out.println("2. No... continuar");
+            System.out.println("3. No... continuar");
 
             switch (opcionRecursos) {
                 case 1:
@@ -276,15 +276,18 @@ public class App {
                 case 2:
                 System.out.println("Ingresa la modificación del oxigeno");
                 oxigeno = scanner.nextDouble();
-                if (oxigeno > 9){
+                if (oxigeno > 200){
                     System.out.println("oxigeno ingresado correctamente");
                 }else{
-                    System.out.println("la cantidad menor de oxigeno son de 9 litros");
+                    System.out.println("la cantidad menor de oxigeno son de 200 mil litros");
                 }
+                    break;
+
+                default:
                     break;
             }
 
-        } while (opcionRecursos != 2);
+        } while (opcionRecursos != 3);
 
        
         
