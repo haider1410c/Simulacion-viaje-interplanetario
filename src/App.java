@@ -199,6 +199,7 @@ public class App {
         System.out.println("Distancia al planeta: " + distanciaKm + " km.");
 
         // Iniciar simulación de vuelo con los datos calculados
+        calcularRecursos();
         iniciarSimulacionVuelo(duracionDias, duracionHoras, distanciaKm, naveElegida, pasajeros);
     }
 
@@ -211,7 +212,6 @@ public class App {
         calcularRecursos();
         gestionarRecursos(nave, pasajeros, distanciaKm, tiempoTranscurrido);
 
-
         System.out.println("---- Inicio de simulación del viaje ----");
         System.out.println("");
 
@@ -220,9 +220,6 @@ public class App {
             tiempoTranscurrido ++;
             distanciaRecorrida += velocidadDefecto;
             recursosDisponibles -= consumoPorHora;
-
-            calcularRecursos();
-            gestionarRecursos(nave, pasajeros, distanciaKm, tiempoTranscurrido);
 
             double porcentajeProgreso = (distanciaRecorrida - distanciaKm) / 100;
 
