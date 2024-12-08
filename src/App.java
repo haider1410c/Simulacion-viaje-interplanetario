@@ -19,7 +19,7 @@ public class App {
     static double[] velocidades = { 20000.0, 15000.0, 30000 };
 
     static String naveElegida = null;
-    static double velocidadDefecto = 100;
+    static double velocidadDefecto = 15000.0;
     static int planeta = -1;
     static double tiempo;
     static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
@@ -39,7 +39,7 @@ public class App {
                     seleccionarNave();
                     break;
                 case 3:
-                    iniciarSimulacionVuelo();
+                    calcularRecursos();
                     break;
 
                 default:
@@ -89,7 +89,6 @@ public class App {
         }
 
         // Seleccion de pasajeros Pasajeros.
-        int limitePasajeros[] = { 7, 15, 5 };
         int pasajeros;
         double velocidadDefecto = velocidades[opcionNave - 1];
         while (true) {
@@ -105,7 +104,7 @@ public class App {
 
         }
 
-        gestionarRecursos(naveElegida, pasajeros);
+        gestionarRecursos(naveElegida, pasajeros, velocidadDefecto, velocidadDefecto);
 
         System.out.println("Nave: " + naveElegida + " velocidad maxima " + velocidadDefecto
                 + " Cantidad de pasajeros : " + pasajeros);
@@ -183,22 +182,27 @@ public class App {
         }
     }
 
-    public static void gestionarRecursos(String naveElegida, int pasajeros) {
-        if (naveElegida == null || planeta == -1) {
-            System.out.println("Por favor, selecciona una nave y un planeta antes de iniciar la simulación.");
+    public static void gestionarRecursos(String naveElegida, int pasajeros, double distanciaPlaneta,
+            double velocidadDefecto) {
+        if (naveElegida == null || naveElegida.isEmpty()) {
+            System.out.println("Por favor, selecciona una nave válida antes de iniciar la simulación.");
             return;
         }
 
+
         // Cálculo de la duración del viaje
-        double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
+        double distanciaKm = distanciaPlaneta * 1_000_000; // Convertir millones de km a km
         double duracionHoras = distanciaKm / velocidadDefecto;
         double duracionDias = duracionHoras / 24;
 
-        // recursos necesarios para la nave
-        iniciarSimulacionVuelo(duracionDias, duracionHoras, distanciaKm);
+        System.out.println("Duración del viaje estimada: " + duracionDias + " días (" + duracionHoras + " horas).");
+        System.out.println("Distancia al planeta: " + distanciaKm + " km.");
+
+        // Iniciar simulación de vuelo con los datos calculados
+        iniciarSimulacionVuelo(duracionDias, duracionHoras, distanciaKm, naveElegida, pasajeros);
     }
 
-    public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras, double distanciaKm) {
+    public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras, double distanciaKm, String nave, int pasajeros) {
 
         double distanciaRecorrida = 100;
         double recursosDisponibles = recursosIniciales;
@@ -212,9 +216,8 @@ public class App {
 
         System.out.println("---- Inicio de simulación del viaje ----");
 
-        while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
+        for (tiempoTranscurrido = 0; tiempoTranscurrido < 100; tiempoTranscurrido++) {
 
-            tiempoTranscurrido++;
             distanciaRecorrida += velocidadDefecto;
             recursosDisponibles -= consumoPorHora;
 
@@ -222,20 +225,25 @@ public class App {
 
             double tiempoRestante = (distanciaKm - distanciaRecorrida) / velocidadDefecto;
 
-            if (tiempoTranscurrido < 100) {
+            System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
+            System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
+            System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
+            System.out.println("");
 
-                System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
-                System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
-                System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
-                System.out.println("");
-
-                try {
-                    Thread.sleep(1000); // Pausa para simular tiempo real
-                } catch (InterruptedException e) {
-                    System.err.println("Error en la simulación de tiempo.");
-                }
+            try {
+                Thread.sleep(1000); // Pausa para simular tiempo real
+            } catch (InterruptedException e) {
+                System.err.println("Error en la simulación de tiempo.");
             }
+
         }
+
+        // while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
+
+        // if (tiempoTranscurrido < 100) {
+
+        // }
+        // }
 
         if (distanciaRecorrida >= distanciaKm) {
 
@@ -267,20 +275,20 @@ public class App {
                 case 1:
                     System.out.println("Ingresa la modificación del combustible");
                     combustible = scanner.nextDouble();
-                    if (combustible > 9){
+                    if (combustible > 9) {
                         System.out.println("combustible ingresado correctamente");
-                    }else{
+                    } else {
                         System.out.println("la cantidad menor de combustible son de 9 litros");
                     }
                     break;
                 case 2:
-                System.out.println("Ingresa la modificación del oxigeno");
-                oxigeno = scanner.nextDouble();
-                if (oxigeno > 200){
-                    System.out.println("oxigeno ingresado correctamente");
-                }else{
-                    System.out.println("la cantidad menor de oxigeno son de 200 mil litros");
-                }
+                    System.out.println("Ingresa la modificación del oxigeno");
+                    oxigeno = scanner.nextDouble();
+                    if (oxigeno > 200) {
+                        System.out.println("oxigeno ingresado correctamente");
+                    } else {
+                        System.out.println("la cantidad menor de oxigeno son de 200 mil litros");
+                    }
                     break;
 
                 default:
@@ -288,10 +296,6 @@ public class App {
             }
 
         } while (opcionRecursos != 3);
-
-       
-        
-
     }
 
     // Métodos auxiliares.
