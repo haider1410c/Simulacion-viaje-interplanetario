@@ -22,8 +22,8 @@ public class App {
     static double velocidadDefecto = 15000.0;
     static int planeta = -1;
     static double tiempo;
-    static double recursosIniciales = 50000.0; // Recursos iniciales para la simulación
-    static double consumoPorHora = 50.0; // Consumo de recursos por hora
+    static double recursosIniciales = 0; // Recursos iniciales para la simulación
+    static double consumoPorHora = 100.0; // Consumo de recursos por hora
 
     public static void main(String[] args) throws Exception {
 
@@ -204,46 +204,45 @@ public class App {
 
     public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras, double distanciaKm, String nave, int pasajeros) {
 
-        double distanciaRecorrida = 100;
+        double distanciaRecorrida = 1000;
         double recursosDisponibles = recursosIniciales;
         double tiempoTranscurrido = 0;
 
-        System.out.println("\n---Resultados de la simulación ---");
-        System.out.println("Nave: " + naveElegida);
-        System.out.println("Planeta: " + planetas[planeta - 1]);
-        System.out.printf("Duración estimada del viaje: %.2f días\n", duracionDias);
-        scanner.nextLine();
+        calcularRecursos();
+        gestionarRecursos(nave, pasajeros, distanciaKm, tiempoTranscurrido);
+
 
         System.out.println("---- Inicio de simulación del viaje ----");
+        System.out.println("");
 
-        for (tiempoTranscurrido = 0; tiempoTranscurrido < 100; tiempoTranscurrido++) {
+        while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
 
+            tiempoTranscurrido ++;
             distanciaRecorrida += velocidadDefecto;
             recursosDisponibles -= consumoPorHora;
 
-            double porcentajeProgreso = (distanciaRecorrida / distanciaKm) * 100;
+            calcularRecursos();
+            gestionarRecursos(nave, pasajeros, distanciaKm, tiempoTranscurrido);
+
+            double porcentajeProgreso = (distanciaRecorrida - distanciaKm) / 100;
 
             double tiempoRestante = (distanciaKm - distanciaRecorrida) / velocidadDefecto;
 
-            System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
-            System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
-            System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
-            System.out.println("");
+            if (porcentajeProgreso < 100) {
+            
+                System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
+                System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
+                System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
+                System.out.println("");
 
             try {
                 Thread.sleep(1000); // Pausa para simular tiempo real
             } catch (InterruptedException e) {
                 System.err.println("Error en la simulación de tiempo.");
             }
+            }
 
         }
-
-        // while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
-
-        // if (tiempoTranscurrido < 100) {
-
-        // }
-        // }
 
         if (distanciaRecorrida >= distanciaKm) {
 
