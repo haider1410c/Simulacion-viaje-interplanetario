@@ -32,9 +32,13 @@ public class App {
                 case 2:
                     seleccionarNave();
                     break;
-                case 3:                    
-                    iniciarSimulacionVuelo();
-                    break;
+                case 3:      
+                    double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
+                    double duracionHoras = distanciaKm / velocidadDefecto;
+                    double duracionDias = duracionHoras / 24;
+                    iniciarSimulacionVuelo(duracionDias,duracionHoras,distanciaKm);
+
+                break;
 
                 default:
                     break;
@@ -178,12 +182,9 @@ public class App {
     }
 
     // Cálculo de la duración del viaje
-    double distanciaKm = tiempo / 1000000.0; // Convertir millones de km a km
-    double duracionHoras = distanciaKm / velocidadDefecto;
-    double duracionDias = duracionHoras / 24;
+    ;
 
     //  recursos necesarios para la nave
-    iniciarSimulacionVuelo(duracionDias,duracionHoras,distanciaKm);
    }
 
     
