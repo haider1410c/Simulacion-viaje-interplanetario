@@ -1,3 +1,5 @@
+
+import java.util.Random;
 import java.util.Scanner;
 
 public class App {
@@ -14,39 +16,61 @@ public class App {
             "Las densas nubes de ácido sulfúrico que rodean la atmosfera de Venus generan tal efecto invernadero que hace de Venus el planeta más caliente del sistema solar",
             "Con un tamaño tan solo un poco mayor al de nuestra luna, es el planeta más pequeño del sistema solar y el más cercano al Sol" };
     static String[] naves = { "Exploradora", "carga pesada", "Velocidad máxima" };
-    static double[] oxigeno = { 20.43, 30.56, 40.78, 45.6, 96.9, 24.38, 23.35 };
+    static int[] capacidadNave = { 7, 25, 3 };
+    static double oxigeno= 9 ;
     // static double[] combustible={}
     static double[] velocidades = { 20000.0, 15000.0, 30000 };
-
     static String naveElegida = null;
     static double velocidadDefecto = 15000.0;
     static int planeta = -1;
+    static double distanciaKm;
+    static double combustible = 200;
+    static int pasajeros;
     static double tiempo;
     static double recursosIniciales = 0; // Recursos iniciales para la simulación
-    static double consumoPorHora = 100.0; // Consumo de recursos por hora
+    static double consumoPorHora = 5; // Consumo de recursos por hora
 
     public static void main(String[] args) throws Exception {
 
         int opcion;
-        do {
-            mostrarMenu();
-            opcion = scanner.nextInt();
-            switch (opcion) {
-                case 1:
-                    seleccionarPlaneta();
-                    break;
-                case 2:
-                    seleccionarNave();
-                    break;
-                case 3:
-                    calcularRecursos();
-                    break;
+        mostrarMenu();
+        while (true) {
+            if (scanner.hasNextInt()) {
+                opcion = scanner.nextInt();
+                if (opcion <= 4) {
+                    switch (opcion) {
+                        case 0:
+                            System.out.println("Opción invalida");
+                            System.out.println("Recuerda que las opciones validas son del 1 al 4");
+                            break;
+                        case 1:
+                            seleccionarPlaneta();
+                            break;
+                        case 2:
+                            seleccionarNave(planeta);
+                            break;
+                        case 3:
+                            iniciarSimulacionVuelo(distanciaKm, oxigeno, combustible,naveElegida,pasajeros,planeta,velocidadDefecto);
+                            break;
+                        case 4:
+                            System.out.println("Gracias por usar nuestro programa");
+                            System.exit(0);
 
-                default:
-                    break;
+                        default:
+                            break;
+                    }
+
+                } else {
+                    System.out.println("Ingrese un número valido");
+                    scanner.next();
+                }
+            } else {
+                System.out.println("Ingrese un número valido");
+                scanner.next();
             }
 
-        } while (opcion != 4);
+        }
+
     }
 
     public static void mostrarMenu() {
@@ -58,21 +82,18 @@ public class App {
         System.out.println("Por favor, elige una opción: ");
     }
 
-    public static void seleccionarNave() {
-
+    public static void seleccionarNave( int planeta) {
         // Selecciona la nave
-
         System.out.println("Selecciona la nave ");
 
         for (int i = 0; i < naves.length; i++) {
-            System.out.println((i + 1) + ". " + naves[i] + " (Velocidad máxima: " + velocidades[i] + " km/h)");
+            System.out.println((i + 1) + ". " + naves[i] + " (Velocidad máxima: " + velocidades[i] + " km/h)"
+                    + " Capacidad máxima de pasajeros " + capacidadNave[i]);
         }
 
         int opcionNave;
-
         while (true) {
             System.out.println("Introduce el número de la nave que deseas elegir: ");
-
             if (scanner.hasNextInt()) {
                 opcionNave = scanner.nextInt();
                 if (opcionNave >= 1 && opcionNave <= naves.length) {
@@ -87,27 +108,39 @@ public class App {
             }
 
         }
-
         // Seleccion de pasajeros Pasajeros.
         int pasajeros;
         double velocidadDefecto = velocidades[opcionNave - 1];
+
         while (true) {
             System.out.println("Ingrese la cantidad de pasajeros");
-            if (scanner.hasNextInt()) { // se verifica que el dato ingresado sea un número
+            if (scanner.hasNextInt()) {
                 pasajeros = scanner.nextInt();
-                System.out.println("Pasajeros registrados exitosamente");
-                break;
+                if (pasajeros > 0) {
+                    System.out.println("Pasajeros registrados exitosamente");
+                    System.out.println("Nave: " + naveElegida + " velocidad maxima " + velocidadDefecto
+                            + " Cantidad de pasajeros :" + pasajeros);
+                    System.out.println("Información del destino: " + planetas[planeta-1] + " Descripción :" +descripcionPlaneta[planeta-1]
+                    +" La distancia a este planeta es de: "+ distancias[planeta-1]+" millones de kilometros");
+                    
+                    gestionarRecursos(naveElegida, pasajeros, planeta, velocidadDefecto);
+                    
+                    break;
+                }
             } else {
                 System.out.println("Por favor, introduce un número válido.");
-                scanner.nextInt();
+                scanner.next(); // Limpiar entrada inválida
             }
-
         }
+    }
 
-        gestionarRecursos(naveElegida, pasajeros, velocidadDefecto, velocidadDefecto);
+    // gestionarRecursos(naveElegida, pasajeros, velocidadDefecto,
+    // velocidadDefecto);
 
-        System.out.println("Nave: " + naveElegida + " velocidad maxima " + velocidadDefecto
-                + " Cantidad de pasajeros : " + pasajeros);
+    public static void confirmacion() {
+        System.out.println("Esta seguro de querer elegir el planeta " + planeta);
+        System.out.println("Digite 1 para confirmar");
+        System.out.println("Digite 2 para elegir otro planeta");
 
     }
 
@@ -117,12 +150,10 @@ public class App {
         System.out.println("Elige un planeta de destino");
         imprimirPlanetas();
         planeta = scanner.nextInt();
-        System.out.println("Esta seguro de querer elegir el planeta " + planeta);
-        System.out.println("Digite 1 para confirmar");
-        System.out.println("Digite 2 para elegir otro planeta");
+        confirmacion();
         confirmacion = scanner.nextInt();
 
-        if (confirmacion != 1 || confirmacion != 2) {
+        if (confirmacion >2 && confirmacion <1) {
             System.out.println("Opción invalida, intente nuevamente.");
         } else {
             if (confirmacion == 1) {
@@ -171,27 +202,69 @@ public class App {
                         break;
                     default:
                         break;
-                }
+                }seleccionarNave(planeta);
 
             } else {
                 System.out.println("Elige un planeta de destino");
                 imprimirPlanetas();
                 scanner.nextInt();
-
+                switch (planeta) {
+                    case 1:
+                        System.out.println(planetas[0]);
+                        System.out.println("La distancia de la tierra a " + planetas[0] + " es de: " + distancias[0]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[0]);
+                        break;
+                    case 2:
+                        System.out.println(planetas[1]);
+                        System.out.println("La distancia de la tierra a " + planetas[1] + " es de: " + distancias[1]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[1]);
+                        break;
+                    case 3:
+                        System.out.println(planetas[2]);
+                        System.out.println("La distancia de la tierra a " + planetas[2] + " es de: " + distancias[2]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[2]);
+                        break;
+                    case 4:
+                        System.out.println(planetas[3]);
+                        System.out.println("La distancia de la tierra a " + planetas[3] + " es de: " + distancias[3]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[3]);
+                        break;
+                    case 5:
+                        System.out.println(planetas[4]);
+                        System.out.println("La distancia de la tierra a " + planetas[4] + " es de: " + distancias[4]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[4]);
+                        break;
+                    case 6:
+                        System.out.println(planetas[5]);
+                        System.out.println("La distancia de la tierra a " + planetas[5] + " es de: " + distancias[5]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[5]);
+                        break;
+                    case 7:
+                        System.out.println(planetas[6]);
+                        System.out.println("La distancia de la tierra a " + planetas[6] + " es de: " + distancias[6]
+                                + " millones de kilometros.");
+                        System.out.println("Descripcion: " + descripcionPlaneta[6]);
+                        break;
+                    default:
+                        break;
+                }seleccionarNave(planeta);
             }
         }
     }
 
-    public static void gestionarRecursos(String naveElegida, int pasajeros, double distanciaPlaneta,
+        
+    public static void gestionarRecursos(String naveElegida, int pasajeros, int planeta,
             double velocidadDefecto) {
-        if (naveElegida == null || naveElegida.isEmpty()) {
-            System.out.println("Por favor, selecciona una nave válida antes de iniciar la simulación.");
-            return;
-        }
-
+        
 
         // Cálculo de la duración del viaje
-        double distanciaKm = distanciaPlaneta * 1_000_000; // Convertir millones de km a km
+        double distanciaKm = distancias[planeta] * 1_000_000; // Convertir millones de km a km
         double duracionHoras = distanciaKm / velocidadDefecto;
         double duracionDias = duracionHoras / 24;
 
@@ -199,44 +272,53 @@ public class App {
         System.out.println("Distancia al planeta: " + distanciaKm + " km.");
 
         // Iniciar simulación de vuelo con los datos calculados
-        calcularRecursos();
-        iniciarSimulacionVuelo(duracionDias, duracionHoras, distanciaKm, naveElegida, pasajeros);
+        calcularRecursos(distanciaKm, naveElegida, pasajeros, planeta, velocidadDefecto);
     }
 
-    public static void iniciarSimulacionVuelo(double duracionDias, double duracionHoras, double distanciaKm, String nave, int pasajeros) {
+
+    public static void iniciarSimulacionVuelo(double distanciaKm, double oxigeno, double combustible, String naveElegida, int pasajeros, int planeta, double velocidadDefecto) {
+            
+        if (naveElegida == null || planeta == -1) {
+            System.out.println("Por favor, selecciona una nave válida antes de iniciar la simulación.");
+            return;
+        }
 
         double distanciaRecorrida = 1000;
-        double recursosDisponibles = recursosIniciales;
+      
         double tiempoTranscurrido = 0;
-
-        calcularRecursos();
-        gestionarRecursos(nave, pasajeros, distanciaKm, tiempoTranscurrido);
+        Random aleatorio= new Random();
+        
+        String[] eventos = {" Se acerca un asteroide","Existe fuga de oxigeno", "Se visualiza una nave invasora","Averia en el motor","Niveles de oxigeno bajos","Niveles de combustible bajos"};
+        
+        
 
         System.out.println("---- Inicio de simulación del viaje ----");
         System.out.println("");
+        double porcentajeProgreso=0;
 
-        while (distanciaRecorrida < recursosIniciales && tiempoTranscurrido >= 0) {
-
-            tiempoTranscurrido ++;
-            distanciaRecorrida += velocidadDefecto;
-            recursosDisponibles -= consumoPorHora;
-
-            double porcentajeProgreso = (distanciaRecorrida - distanciaKm) / 100;
+        while (oxigeno >0 && combustible> 0 && oxigeno >0  && combustible >0) {
+            int eventoAleatorio= aleatorio.nextInt(5);
+            tiempoTranscurrido= tiempoTranscurrido+10;
+            distanciaRecorrida = velocidadDefecto*tiempoTranscurrido;
+            oxigeno -= consumoPorHora;
+            combustible -= consumoPorHora;
+            porcentajeProgreso = porcentajeProgreso + 20;
 
             double tiempoRestante = (distanciaKm - distanciaRecorrida) / velocidadDefecto;
-
             if (porcentajeProgreso < 100) {
-            
+
                 System.out.printf("Progreso del viaje: %.2f%%\n", porcentajeProgreso);
                 System.out.printf("Tiempo restante: %.2f horas\n", tiempoRestante);
-                System.out.printf("Recursos disponibles: %.2f\n", recursosDisponibles);
-                System.out.println("");
-
-            try {
-                Thread.sleep(1000); // Pausa para simular tiempo real
-            } catch (InterruptedException e) {
-                System.err.println("Error en la simulación de tiempo.");
-            }
+                System.out.printf("Recursos disponibles: ");
+                System.out.println("Oxigeno "+ oxigeno);
+                System.out.println("Combustible "+ combustible);
+                System.out.println("ALERTA");
+                System.out.println(eventos[eventoAleatorio]);
+                try {
+                    Thread.sleep(1000); // Pausa para simular tiempo real
+                } catch (InterruptedException e) {
+                    System.err.println("Error en la simulación de tiempo.");
+                }
             }
 
         }
@@ -244,37 +326,41 @@ public class App {
         if (distanciaRecorrida >= distanciaKm) {
 
             System.out.println(" Viaje realizado con exito, bienvenido a su destino");
-
-        } else {
-            System.err.println("¡ La nave se a quedado sin recursos!, el viaje ha fallado");
         }
+
+        
+        // } else {
+        //     System.err.println("¡ La nave se a quedado sin recursos!, el viaje ha fallado");
+        // }
 
     }
 
-    public static void calcularRecursos() {
-        double oxigeno;
-        double combustible;
+    public static void calcularRecursos(double distanciaKm,String naveElegida, int pasajeros, int planeta, double velocidadDefecto) {
+        double oxigeno =1000;
+        double combustible =5000;
         int opcionRecursos;
 
         System.out.println("La cantidad necesaria de oxigeno para el viaje son 9 litros por cada 6 personas");
         System.out.println("La cantidad necesaria de combustible para el viaje son 200 mil litros");
-
+        System.out.println("¿Deseas modificar estos parametros?");
+        System.out.println("1. Modificar combustible");
+        System.out.println("2. Modificar oxigeno");
+        System.out.println("3. Modificar oxigeno y combustible");
+        System.out.println("4. No... continuar");
         do {
             opcionRecursos = scanner.nextInt();
-
-            System.out.println("¿Deseas modificar estos parametros?");
-            System.out.println("1. Modificar combustible");
-            System.out.println("2. Modificar oxigeno");
-            System.out.println("3. No... continuar");
-
             switch (opcionRecursos) {
                 case 1:
                     System.out.println("Ingresa la modificación del combustible");
                     combustible = scanner.nextDouble();
                     if (combustible > 9) {
                         System.out.println("combustible ingresado correctamente");
+                        iniciarSimulacionVuelo(distanciaKm, oxigeno, combustible, naveElegida, pasajeros, planeta, velocidadDefecto);
+
+                        break;
                     } else {
                         System.out.println("la cantidad menor de combustible son de 9 litros");
+                        scanner.nextInt();
                     }
                     break;
                 case 2:
@@ -282,16 +368,42 @@ public class App {
                     oxigeno = scanner.nextDouble();
                     if (oxigeno > 200) {
                         System.out.println("oxigeno ingresado correctamente");
+                        iniciarSimulacionVuelo(distanciaKm, oxigeno, combustible, naveElegida, pasajeros, planeta, velocidadDefecto);
+                        break;
                     } else {
                         System.out.println("la cantidad menor de oxigeno son de 200 mil litros");
                     }
                     break;
+                case 3:
+                    System.out.println("Ingresa la modificación del oxigeno");
+                    oxigeno = scanner.nextDouble();
+                    if (oxigeno > 200) {
+                        System.out.println("oxigeno ingresado correctamente");
+                    } else {
+                        System.out.println("la cantidad menor de oxigeno son de 200 mil litros");
+                    }
 
+                    System.out.println("Ingresa la modificación del combustible");
+                    combustible = scanner.nextDouble();
+                    if (combustible > 9) {
+                        System.out.println("combustible ingresado correctamente");
+                        iniciarSimulacionVuelo(distanciaKm, oxigeno, combustible, naveElegida, pasajeros, planeta, velocidadDefecto);
+                        break;
+                    } else {
+                        System.out.println("la cantidad menor de combustible son de 9 litros");
+                    }
+                    break;
+                case 4:
+                    break;    
                 default:
                     break;
-            }
+                
+                 } 
 
-        } while (opcionRecursos != 3);
+
+        } while (opcionRecursos != 4);
+        
+        iniciarSimulacionVuelo(distanciaKm, oxigeno, combustible, naveElegida, pasajeros, planeta, velocidadDefecto);
     }
 
     // Métodos auxiliares.
@@ -303,9 +415,7 @@ public class App {
         }
     }
 
-    public static void lanzarEvento() {
-
-    }
+   
 
     public static void detenerNave() {
 
