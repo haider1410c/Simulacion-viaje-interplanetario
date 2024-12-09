@@ -1,20 +1,10 @@
-## Getting Started
+ El aplicativo se desarrollo con el proposito de permitir al usuario calcular y planear un viaje entre los diferentes planetas del sistema solar,para ello se tiene una lista de los 8 planetas que se encuentran actualmente,estos planetas podran ser elegidos por medio de un array de objetos cada uno de ellos al ser elegidos por el usuario mostrara una breve descripción al igual que la distancia de cada planeta dada en millones de kilometros.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Se cuenta con 3 tipos de naves diferentes las cuales contendran una capacidad distinta de pasajeros cada una al igual que una velocidad máxima la cual el usuario podra visualizar por consola
 
-## Folder Structure
+En el apliciativo se cuenta con dos opciones más las cuales son Iniciar simulación de vuelo y permitiran sair del aplicativo
 
-The workspace contains two folders by default, where:
+cada uno de los planetas contienesu información al iguaal que la distancia que tienene desde la tierra ,adicional a esto se podra modificar la cantidad de combustible y oxigeno requerido para cada viaje,esto se calculara con base a la distancia y velocidad.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
-
-El aplicativo que se desarrollo con el proposito de permitir al usuario calcular y planear un viaje entre los diferentes planetas del sistema solar,adicional a esto se podra modificar la cantidad de combustible y oxigeno requerido para cada viaje,esto se calculara con base a la distancia y velocidad.
-
-Este programa tiene modularidad en los metodos,cada metodo conte
+Este programa tiene modularidad en los metodos,cada metodo contiene 
+diferentes parametros que
